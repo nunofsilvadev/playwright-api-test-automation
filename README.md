@@ -28,7 +28,9 @@ npx playwright test
 | `API_PASSWORD` | Guild account password |
 | `DELETE_CHARACTERS_AFTER_TESTS` | Delete characters created in E2E tests when done (`true` by default) |
 
-Set `DELETE_CHARACTERS_AFTER_TESTS=false` locally to keep Kael on the site after a test run. The console prints the character URL.
+Set `DELETE_CHARACTERS_AFTER_TESTS=false` locally to keep Kael on the site after a test run.
+
+After each E2E run the console prints the character id and page URL. With delete enabled (CI default), the character is removed immediately after.
 
 ## Running tests
 

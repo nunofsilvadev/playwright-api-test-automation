@@ -19,11 +19,12 @@ import {
   kaelTestName,
 } from '../../data/kael-thornwhisper';
 import { expectStatusCreated, expectStatusOk } from '../../snippets/status-validators';
-import { characterPageUrl, shouldDeleteCharactersAfterTests } from '../../config/test-config';
+import { logTestCharacter, shouldDeleteCharactersAfterTests } from '../../config/test-config';
 
 test.describe.serial('Kael Thornwhisper creation', { tag: [Tags.FLOW, Tags.KAEL, Tags.ROGUE] }, () => {
   let token = '';
   let characterId = 0;
+  let characterName = '';
 
   test.beforeAll(async ({ request }) => {
     token = await authState.authenticate(request);
@@ -34,23 +35,26 @@ test.describe.serial('Kael Thornwhisper creation', { tag: [Tags.FLOW, Tags.KAEL,
       return;
     }
 
+    logTestCharacter(characterId, characterName);
+
     if (shouldDeleteCharactersAfterTests()) {
       await deleteCharacter(request, token, characterId);
+      console.log(`Deleted test character id=${characterId}`);
       return;
     }
 
-    console.log(`Kept test character: ${characterPageUrl(characterId)}`);
+    console.log(`Kept test character id=${characterId}`);
   });
 
   test('creates a draft', { tag: [Tags.POST, Tags.CREATE] }, async ({ request }) => {
-    const name = kaelTestName();
-    const response = await createCharacter(request, token, { name });
+    characterName = kaelTestName();
+    const response = await createCharacter(request, token, { name: characterName });
     await expectStatusCreated(response);
 
     const body = await response.json();
     characterId = body.id;
 
-    expect(body.name).toBe(name);
+    expect(body.name).toBe(characterName);
     expect(body.status).toBe(CharacterStatus.DRAFT);
     expect(body.level).toBe(1);
     expect(body.missingFields).toEqual(
