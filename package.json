@@ -1,0 +1,19 @@
+{
+  "name": "playwright-api-test-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:flow": "playwright test --grep @flow",
+    "test:negative": "playwright test --grep @negative",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0",
+    "dotenv": "^17.4.2",
+    "typescript": "^5.7.0"
+  }
+}
