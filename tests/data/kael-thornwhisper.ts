@@ -13,8 +13,8 @@ export function kaelTestName(): string {
 
 export const kaelAbilityScores = {
   abilityScores: {
-    base: { STR: 8, DEX: 13, CON: 13, INT: 14, WIS: 12, CHA: 10 },
-    bonuses: { STR: 0, DEX: 2, CON: 0, INT: 0, WIS: 0, CHA: 0 },
+    base: { STR: 8, DEX: 14, CON: 12, INT: 13, WIS: 12, CHA: 10 },
+    bonuses: { STR: 0, DEX: 1, CON: 1, INT: 1, WIS: 0, CHA: 0 },
   },
 };
 

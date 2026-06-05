@@ -19,6 +19,7 @@ import {
   kaelTestName,
 } from '../../data/kael-thornwhisper';
 import { expectStatusCreated, expectStatusOk } from '../../snippets/status-validators';
+import { characterPageUrl, shouldDeleteCharactersAfterTests } from '../../config/test-config';
 
 test.describe.serial('Kael Thornwhisper creation', { tag: [Tags.FLOW, Tags.KAEL, Tags.ROGUE] }, () => {
   let token = '';
@@ -29,9 +30,16 @@ test.describe.serial('Kael Thornwhisper creation', { tag: [Tags.FLOW, Tags.KAEL,
   });
 
   test.afterAll(async ({ request }) => {
-    if (characterId > 0) {
-      await deleteCharacter(request, token, characterId);
+    if (characterId <= 0) {
+      return;
     }
+
+    if (shouldDeleteCharactersAfterTests()) {
+      await deleteCharacter(request, token, characterId);
+      return;
+    }
+
+    console.log(`Kept test character: ${characterPageUrl(characterId)}`);
   });
 
   test('creates a draft', { tag: [Tags.POST, Tags.CREATE] }, async ({ request }) => {
@@ -81,9 +89,9 @@ test.describe.serial('Kael Thornwhisper creation', { tag: [Tags.FLOW, Tags.KAEL,
     await expectStatusOk(response);
 
     const body = await response.json();
-    expect(body.abilityScores.final.DEX).toBe(15);
-    expect(body.abilityScores.final.INT).toBe(14);
-    expect(body.abilityScores.final.STR).toBe(8);
+    expect(body.selectedAbilityScores.final.DEX).toBe(15);
+    expect(body.selectedAbilityScores.final.INT).toBe(14);
+    expect(body.selectedAbilityScores.final.STR).toBe(8);
   });
 
   test('picks skill proficiencies', { tag: Tags.PATCH }, async ({ request }) => {
