@@ -14,6 +14,7 @@ jobs:
       BASE_URL: https://adventurers-guild-api.vercel.app
       API_USERNAME: ${{ secrets.API_USERNAME }}
       API_PASSWORD: ${{ secrets.API_PASSWORD }}
+      DELETE_CHARACTERS_AFTER_TESTS: 'true'
     steps:
       - uses: actions/checkout@v4
 
