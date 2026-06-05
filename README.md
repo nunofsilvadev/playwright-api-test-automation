@@ -65,7 +65,17 @@ In GitHub: **Settings → Secrets and variables → Actions → New repository s
 
 Secrets are injected at runtime. They are not read from `.env` in CI.
 
-### 2. Push your branch and open a PR
+### 2. Repository variable (optional)
+
+**Settings → Secrets and variables → Actions → Variables → New repository variable**
+
+| Variable | Value | Default if unset |
+|----------|-------|------------------|
+| `DELETE_CHARACTERS_AFTER_TESTS` | `true` or `false` | `true` |
+
+Set to `false` to keep E2E characters on the API after CI runs. Each run still creates a new character.
+
+### 3. Push your branch and open a PR
 
 ```bash
 git push -u origin playwright-tests
@@ -74,18 +84,18 @@ gh pr create --base main --head playwright-tests --title "Add Playwright API tes
 
 The workflow runs automatically when the PR is opened or updated.
 
-### 3. Read the results
+### 4. Read the results
 
 - Open the PR → **Checks** tab → **Playwright API Tests**
 - On failure: **Actions** → select the run → download the `playwright-report` artifact
 
-### 4. Merge
+### 5. Merge
 
 When checks are green, merge into `main`. Pushing to `main` also triggers the workflow.
 
 ### CI behaviour
 
-- `DELETE_CHARACTERS_AFTER_TESTS` is set to `true` in the workflow (test characters are removed after E2E runs)
+- `DELETE_CHARACTERS_AFTER_TESTS` comes from the repository variable above (defaults to `true`)
 - `BASE_URL` points to the production API URL
 
 ### Branch protection (optional)
